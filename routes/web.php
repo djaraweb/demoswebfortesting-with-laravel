@@ -1,21 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\ThreadController;
+use App\Livewire\ShowThread;
+use App\Livewire\ShowThreads;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route::get('/test', Test::class);
 
 Route::middleware([
     'auth:sanctum',
@@ -25,4 +19,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/threads', ShowThreads::class)->name('threads');
+    Route::get('/thread/{thread}', ShowThread::class)->name('thread');
+    Route::resource('threads', ThreadController::class)->except([
+        'show', 'index', 'destroy'
+    ]);
 });
